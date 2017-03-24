@@ -134,9 +134,9 @@ FOE
 
 deployContent ()
 {
-  mkdir /var/www/html
+  mkdir -p /var/www/html
   cd /var/www/html
-  git clone $cccGitHubRepoURL
+  git clone --depth 1 $cccGitHubRepoURL .
   # chmod 000 .git
 }
 
@@ -160,7 +160,7 @@ case $1 in
     ;;
   deploy)
     configureNginx
-    # deployContent
+    deployContent
     ;;
   upgrade)
     stopNginx
