@@ -89,6 +89,11 @@ case $1 in
     sleep 3
     startNginx
     ;;
+  deploy)
+    cd /var/www/html
+    git clone $cccGitHubRepoURL
+    # chmod 000 .git
+    ;;
   upgrade)
     stopNginx
     lowerCliqrRepoPriority
