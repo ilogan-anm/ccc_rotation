@@ -154,8 +154,8 @@ openFirewallD ()
   firewall-cmd --add-service=https
 }
 
-majversion=$(lsb_release -rs | cut -f1 -d.)
-minversion=$(lsb_release -rs | cut -f2 -d.)
+majversion=$(/usr/bin/lsb_release -rs | cut -f1 -d.)
+minversion=$(/usr/bin/lsb_release -rs | cut -f2 -d.)
 
 case $1 in
   install)
