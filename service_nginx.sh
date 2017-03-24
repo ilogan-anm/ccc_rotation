@@ -11,9 +11,6 @@ OSSVC_HOME=/usr/local/osmosix/service
 # . $OSSVC_HOME/utils/agent_util.sh
 #
 
-majversion=$(lsb_release -rs | cut -f1 -d.)
-minversion=$(lsb_release -rs | cut -f2 -d.)
-
 configureRepo ()
 {
 dist=`cat /etc/system-release | awk '{print $1}'`
@@ -140,8 +137,33 @@ deployContent ()
   # chmod 000 .git
 }
 
+installGit ()
+{
+  rpm -qa | grep -q git
+  if [[ ! -z $? ]]
+  then
+    yum install -y git
+  fi
+}
+
+openFirewallD ()
+{
+  firewall-cmd --permanent --add-service=http
+  firewall-cmd --permanent --add-service=https
+  firewall-cmd --add-service=http
+  firewall-cmd --add-service=https
+}
+
+majversion=$(lsb_release -rs | cut -f1 -d.)
+minversion=$(lsb_release -rs | cut -f2 -d.)
+
 case $1 in
   install)
+    if [[ $majversion -ge 7 ]]
+    then
+      openFirewallD
+    fi
+    installGit
     configureRepo
     lowerCliqrRepoPriority
     installNginx
