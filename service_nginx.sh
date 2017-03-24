@@ -146,6 +146,15 @@ installGit ()
   fi
 }
 
+installLSB ()
+{
+  rpm -qa | grep -q redhat-lsb
+  if [[ ! -z $? ]]
+  then
+    yum install -y redhat-lsb
+  fi
+}
+
 openFirewallD ()
 {
   firewall-cmd --permanent --add-service=http
@@ -153,6 +162,8 @@ openFirewallD ()
   firewall-cmd --add-service=http
   firewall-cmd --add-service=https
 }
+installGit
+installLSB
 
 majversion=$(/usr/bin/lsb_release -rs | cut -f1 -d.)
 minversion=$(/usr/bin/lsb_release -rs | cut -f2 -d.)
